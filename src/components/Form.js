@@ -21,7 +21,7 @@ const Form = () => {
 
         axios
           .post(
-            "/posts",
+            "http://localhost:5000/posts",
             { title, content, status, userId },
             {
               headers: {

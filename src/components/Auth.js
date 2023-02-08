@@ -18,7 +18,8 @@ const authCtx = useContext(AuthContext);
      };
      console.log(body)
 
-     const url = "https://socialmtn.devmountain.com";
+     //const url = "https://socialmtn.devmountain.com";
+     let url=`http://localhost:5000`
 
      axios
        .post(register ? `${url}/register` : `${url}/login`, body)

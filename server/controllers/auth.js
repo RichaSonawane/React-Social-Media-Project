@@ -1,33 +1,28 @@
 require("dotenv").config();
-
-
-const {SECRET}=process.env;
+const { SECRET } = process.env;
 const { User } = require("../models/user");
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-
-function createToken(username,id){
-return jwt.sign(
-  {
-    username,
-    id,
-  },
-  SECRET,
-  {
-    expiresIn: "2 days",
-  }
-);
-
-}
-
+const createToken = (username, id) => {
+  return jwt.sign(
+    {
+      username,
+      id,
+    },
+    SECRET,
+    {
+      expiresIn: "2 days",
+    }
+  );
+};
 module.exports = {
   register: async (req, res) => {
     try {
       const { username, password } = req.body;
       let foundUser = await User.findOne({ where: { username: username } });
       if (foundUser) {
-        res.status(400).send("cannot create user");
+        res.status(400).send("Cannot create user");
       } else {
         const salt = bcrypt.genSaltSync(10);
         const hash = bcrypt.hashSync(password, salt);
@@ -45,13 +40,12 @@ module.exports = {
           exp,
         });
       }
-    } catch (error) {
-      console.log("ERROR IN register");
-      console.log(error);
+    } catch (err) {
+      console.log("Error in Register");
+      console.log(err);
       res.sendStatus(400);
     }
   },
-
   login: async (req, res) => {
     try {
       const { username, password } = req.body;
